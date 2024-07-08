@@ -1,0 +1,2 @@
+Breakpoint File Version 1.0
+101,true,"C:/Users/tobia/Downloads/trabajo_sed/maquinaexpendedora/maquina_expend/maquina_expend.srcs/testbench/new/TOP_TB.vhd"
