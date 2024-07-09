@@ -67,17 +67,17 @@ architecture Behavioral of TOP is
     
 -- DECLARACION DE COMPONENTES
     -- COIN_INPUT gestiona los botones de introducir moneda
-    component ENTRADA is
+    component COIN_INPUT is
         port(
             clk: in std_logic;
             reset: in std_logic;
             async_in: in std_logic_vector(3 downto 0);
             sync_out: out std_logic_vector(3 downto 0)
         );
-    end component ENTRADA;
+    end component COIN_INPUT;
     
     -- FSM_SELECTION nos indica cuando hemos escogido una bebida y su precio
-    component SELECCION is
+    component FSM_SELECTION is
         port(
             clk: in std_logic;
             reset: in std_logic;
@@ -87,10 +87,10 @@ architecture Behavioral of TOP is
             option: out std_logic; 
             price: out natural range 0 to 20
         );
-    end component SELECCION;
+    end component FSM_SELECTION;
     
     -- FSM_PRICE nos indica cuando se se ha realizado una venta mediante confirmed_signal
-    component PRECIO is
+    component FSM_PRICE is
         Port(
             clk: in std_logic;
             reset: in std_logic;
@@ -101,10 +101,10 @@ architecture Behavioral of TOP is
             reassemble: in std_logic;
             confirmed_sale: out std_logic
         );
-    end component PRECIO;
+    end component FSM_PRICE;
     
     -- COUNTER realiza la suma de dinero y nos devuelve el cambio en caso de pasarnos
-    component CONTADOR is 
+    component COUNTER is 
         Port(
             clk: in std_logic;
             reset: in std_logic;
@@ -115,10 +115,10 @@ architecture Behavioral of TOP is
             count: out unsigned(4 downto 0);
             change: out natural range 0 to 10
         );
-    end component CONTADOR;  
+    end component COUNTER;  
     
     -- FSM_DISPLAY
-    component DISPLAY is 
+    component FSM_DISPLAY is 
         Port(
             clk: in std_logic;
             reset: in std_logic;
@@ -131,19 +131,19 @@ architecture Behavioral of TOP is
             segments: out std_logic_vector(7 downto 0);                                                      
             digsel: out std_logic_vector(7 downto 0)            
         );    
-    end component DISPLAY; 
+    end component FSM_DISPLAY; 
 
 begin
 
 -- INICIALIZACION DE COMPONENTES
-    inst_ENTRADA: ENTRADA port map(
+    inst_COIN_INPUT: COIN_INPUT port map(
             clk => clk ,
             reset => reset ,
             async_in => coin ,
             sync_out => sync_out
     );
 
-    inst_SELECTION: SELECCION port map(
+    inst_FSM_SELECTION: FSM_SELECTION port map(
             clk => clk ,
             reset => reset ,
             sw => sw ,
@@ -153,7 +153,7 @@ begin
             price => price 
     );
 
-    inst_PRECIO: PRECIO port map(
+    inst_FSM_PRICE: FSM_PRICE port map(
             clk => clk ,
             reset => reset ,
             coin => sync_out ,
@@ -164,7 +164,7 @@ begin
             confirmed_sale => confirmed_sale
     );
     
-    inst_CONTADOR: CONTADOR port map(
+    inst_COUNTER: COUNTER port map(
             clk => clk ,
             reset => reset ,
             coin => sync_out ,
@@ -175,7 +175,7 @@ begin
             change => change  
     );
     
-    inst_DISPLAY: DISPLAY port map(
+    inst_FSM_DISPLAY: FSM_DISPLAY port map(
             clk => clk ,
             reset => reset ,
             reassemble => reassemble ,

@@ -31,23 +31,24 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity ENTRADA is
+entity COIN_INPUT is
+    -- se podria generalizar para mas monedas con generic(WIDTH(...))
     port(
-        clk: in std_logic; -- Clock input
-        reset: in std_logic; -- Asynchronous reset input
+        clk: in std_logic; -- clock
+        reset: in std_logic; -- Asynchronous reset
         async_in: in std_logic_vector(3 downto 0); -- Asynchronous coin input
         sync_out: out std_logic_vector(3 downto 0) -- Synchronous coin output
     );
-end ENTRADA;
+end COIN_INPUT;
 
-architecture Behavioral of ENTRADA is
+architecture Behavioral of COIN_INPUT is
 
--- SIGNAL DECLARATIONS
+-- DECLARACION DE SE ALES
     signal sync_output: std_logic_vector(3 downto 0);
     signal btn_out: std_logic_vector(3 downto 0);
     
--- COMPONENT DECLARATIONS
-    -- SYNCHRONIZER returns a synchronous signal
+-- DECLARACION DE COMPONENTES
+    --SYNCHRZNR nos devuelve una se al sincrona 
     component SYNCHRNZR is
         Port (
             clk: in std_logic;
@@ -57,7 +58,7 @@ architecture Behavioral of ENTRADA is
         );
     end component SYNCHRNZR;
 
-    -- DEBOUNCER ensures no bouncing occurs
+    --DEBOUNCER nos asegura que no haya rebotes
     component DEBOUNCER is
         Port(
             clk	: in std_logic;
@@ -66,11 +67,11 @@ architecture Behavioral of ENTRADA is
         );
     end component DEBOUNCER;
 
-    -- EDGEDTCtR detects rising edges
+    -- EDGEDTCTR detecta cuando se produe un flanco de subida
     component EDGEDTCtR is
         Port(
             clk: in std_logic;
-            reset: in std_logic;
+            reset:in std_logic;
             sync_in: in std_logic_vector(3 downto 0);
             edge: out std_logic_vector(3 downto 0)
         );
@@ -78,8 +79,8 @@ architecture Behavioral of ENTRADA is
     
 begin
 
--- COMPONENT INSTANTIATIONS
-    inst_SYNCHRNIZR: SYNCHRNZR port map(
+-- INICIALIZACION DE COMPONENTES
+    inst_SYNCHRNZR: SYNCHRNZR port map(
             clk => clk ,
             reset => reset ,
             async_in => async_in ,
@@ -92,7 +93,7 @@ begin
             btn_out => btn_out
     );
     
-    inst_EDGEDTCtR: EDGEDTCtR port map(
+    inst_EDGEDTCTR: EDGEDTCtR port map(
             clk => clk ,
             reset => reset ,
             sync_in => btn_out ,

@@ -31,7 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity EDGEDTCTR is
+entity EDGEDTCtR is
     Port(
         clk: in std_logic; -- clock
         reset:in std_logic; -- Asynchronous reset
@@ -40,7 +40,7 @@ entity EDGEDTCTR is
     );
 end EDGEDTCtR;
 
-architecture Behavioral of EDGEDTCTR is
+architecture Behavioral of EDGEDTCtR is
 
 -- DECLARACION DE SE ALES
     type matrix_sreg is array(3 downto 0) of std_logic_vector(2 downto 0);
